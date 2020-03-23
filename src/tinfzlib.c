@@ -25,21 +25,21 @@
 
 #include "tinf.h"
 
-static unsigned int read_be32(const unsigned char *p)
+static unsigned long read_be32(const unsigned char *p)
 {
-	return ((unsigned int) p[0] << 24)
-	     | ((unsigned int) p[1] << 16)
-	     | ((unsigned int) p[2] << 8)
-	     | ((unsigned int) p[3]);
+	return ((unsigned long) p[0] << 24)
+	     | ((unsigned long) p[1] << 16)
+	     | ((unsigned long) p[2] << 8)
+	     | ((unsigned long) p[3]);
 }
 
-int tinf_zlib_uncompress(void *dest, unsigned int *destLen,
-                         const void *source, unsigned int sourceLen)
+long tinf_zlib_uncompress(void *dest, unsigned long *destLen,
+                         const void *source, unsigned long sourceLen)
 {
 	const unsigned char *src = (const unsigned char *) source;
 	unsigned char *dst = (unsigned char *) dest;
-	unsigned int a32;
-	int res;
+	unsigned long a32;
+	long res;
 	unsigned char cmf, flg;
 
 	/* -- Check header -- */

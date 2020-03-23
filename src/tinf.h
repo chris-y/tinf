@@ -76,8 +76,8 @@ void TINFCC tinf_init(void);
  * @param sourceLen size of compressed data
  * @return `TINF_OK` on success, error code on error
  */
-int TINFCC tinf_uncompress(void *dest, unsigned int *destLen,
-                           const void *source, unsigned int sourceLen);
+long TINFCC tinf_uncompress(void *dest, unsigned long *destLen,
+                           const void *source, unsigned long sourceLen);
 
 /**
  * Decompress `sourceLen` bytes of gzip data from `source` to `dest`.
@@ -94,8 +94,8 @@ int TINFCC tinf_uncompress(void *dest, unsigned int *destLen,
  * @param sourceLen size of compressed data
  * @return `TINF_OK` on success, error code on error
  */
-int TINFCC tinf_gzip_uncompress(void *dest, unsigned int *destLen,
-                                const void *source, unsigned int sourceLen);
+long TINFCC tinf_gzip_uncompress(void *dest, unsigned long *destLen,
+                                const void *source, unsigned long sourceLen);
 
 /**
  * Decompress `sourceLen` bytes of zlib data from `source` to `dest`.
@@ -112,8 +112,8 @@ int TINFCC tinf_gzip_uncompress(void *dest, unsigned int *destLen,
  * @param sourceLen size of compressed data
  * @return `TINF_OK` on success, error code on error
  */
-int TINFCC tinf_zlib_uncompress(void *dest, unsigned int *destLen,
-                                const void *source, unsigned int sourceLen);
+long TINFCC tinf_zlib_uncompress(void *dest, unsigned long *destLen,
+                                const void *source, unsigned long sourceLen);
 
 /**
  * Compute Adler-32 checksum of `length` bytes starting at `data`.
@@ -122,7 +122,7 @@ int TINFCC tinf_zlib_uncompress(void *dest, unsigned int *destLen,
  * @param length size of data
  * @return Adler-32 checksum
  */
-unsigned int TINFCC tinf_adler32(const void *data, unsigned int length);
+unsigned long TINFCC tinf_adler32(const void *data, unsigned long length);
 
 /**
  * Compute CRC32 checksum of `length` bytes starting at `data`.
@@ -131,7 +131,7 @@ unsigned int TINFCC tinf_adler32(const void *data, unsigned int length);
  * @param length size of data
  * @return CRC32 checksum
  */
-unsigned int TINFCC tinf_crc32(const void *data, unsigned int length);
+unsigned long TINFCC tinf_crc32(const void *data, unsigned long length);
 
 #ifdef __cplusplus
 } /* extern "C" */

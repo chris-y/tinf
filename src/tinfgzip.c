@@ -33,28 +33,28 @@ typedef enum {
 	FCOMMENT = 16
 } tinf_gzip_flag;
 
-static unsigned int read_le16(const unsigned char *p)
+static unsigned long read_le16(const unsigned char *p)
 {
-	return ((unsigned int) p[0])
-	     | ((unsigned int) p[1] << 8);
+	return ((unsigned long) p[0])
+	     | ((unsigned long) p[1] << 8);
 }
 
-static unsigned int read_le32(const unsigned char *p)
+static unsigned long read_le32(const unsigned char *p)
 {
-	return ((unsigned int) p[0])
-	     | ((unsigned int) p[1] << 8)
-	     | ((unsigned int) p[2] << 16)
-	     | ((unsigned int) p[3] << 24);
+	return ((unsigned long) p[0])
+	     | ((unsigned long) p[1] << 8)
+	     | ((unsigned long) p[2] << 16)
+	     | ((unsigned long) p[3] << 24);
 }
 
-int tinf_gzip_uncompress(void *dest, unsigned int *destLen,
-                         const void *source, unsigned int sourceLen)
+long tinf_gzip_uncompress(void *dest, unsigned long *destLen,
+                         const void *source, unsigned long sourceLen)
 {
 	const unsigned char *src = (const unsigned char *) source;
 	unsigned char *dst = (unsigned char *) dest;
 	const unsigned char *start;
-	unsigned int dlen, crc32;
-	int res;
+	unsigned long dlen, crc32;
+	long res;
 	unsigned char flg;
 
 	/* -- Check header -- */
@@ -89,7 +89,7 @@ int tinf_gzip_uncompress(void *dest, unsigned int *destLen,
 
 	/* Skip extra data if present */
 	if (flg & FEXTRA) {
-		unsigned int xlen = read_le16(start);
+		unsigned long xlen = read_le16(start);
 
 		if (xlen > sourceLen - 12) {
 			return TINF_DATA_ERROR;
@@ -118,7 +118,7 @@ int tinf_gzip_uncompress(void *dest, unsigned int *destLen,
 
 	/* Check header crc if present */
 	if (flg & FHCRC) {
-		unsigned int hcrc;
+		unsigned long hcrc;
 
 		if (start - src > sourceLen - 2) {
 			return TINF_DATA_ERROR;

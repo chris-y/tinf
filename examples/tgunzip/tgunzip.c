@@ -29,12 +29,12 @@
 
 #include "tinf.h"
 
-static unsigned int read_le32(const unsigned char *p)
+static unsigned long read_le32(const unsigned char *p)
 {
-	return ((unsigned int) p[0])
-	     | ((unsigned int) p[1] << 8)
-	     | ((unsigned int) p[2] << 16)
-	     | ((unsigned int) p[3] << 24);
+	return ((unsigned long) p[0])
+	     | ((unsigned long) p[1] << 8)
+	     | ((unsigned long) p[2] << 16)
+	     | ((unsigned long) p[3] << 24);
 }
 
 static void printf_error(const char *fmt, ...)
@@ -50,15 +50,15 @@ static void printf_error(const char *fmt, ...)
 	fputs("\n", stderr);
 }
 
-int main(int argc, char *argv[])
+long main(long argc, char *argv[])
 {
 	FILE *fin = NULL;
 	FILE *fout = NULL;
 	unsigned char *source = NULL;
 	unsigned char *dest = NULL;
-	unsigned int len, dlen, outlen;
-	int retval = EXIT_FAILURE;
-	int res;
+	unsigned long len, dlen, outlen;
+	long retval = EXIT_FAILURE;
+	long res;
 
 	printf("tgunzip " TINF_VER_STRING " - example from the tiny inflate library (www.ibsensoftware.com)\n\n");
 

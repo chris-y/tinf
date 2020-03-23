@@ -33,16 +33,16 @@
 #define A32_BASE 65521
 #define A32_NMAX 5552
 
-unsigned int tinf_adler32(const void *data, unsigned int length)
+unsigned long tinf_adler32(const void *data, unsigned long length)
 {
 	const unsigned char *buf = (const unsigned char *) data;
 
-	unsigned int s1 = 1;
-	unsigned int s2 = 0;
+	unsigned long s1 = 1;
+	unsigned long s2 = 0;
 
 	while (length > 0) {
-		int k = length < A32_NMAX ? length : A32_NMAX;
-		int i;
+		long k = length < A32_NMAX ? length : A32_NMAX;
+		long i;
 
 		for (i = k / 16; i; --i, buf += 16) {
 			s1 += buf[0];
