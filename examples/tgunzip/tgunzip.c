@@ -57,7 +57,8 @@ long main(int argc, char *argv[])
 	unsigned char fout = 0;
 	unsigned char *source = NULL;
 	unsigned char *dest = NULL;
-	unsigned long len, dlen, outlen;
+	unsigned long dlen, outlen;
+	uint32_t len;
 	long retval = EXIT_FAILURE;
 	long res;
 	struct esx_stat es;
@@ -86,7 +87,11 @@ long main(int argc, char *argv[])
 
 	/* -- Read source -- */
 
-	res = esx_f_fstat(fin, (struct esx_stat *)&es);
+	if(esx_f_fstat(fin, (struct esx_stat *)&es)) {
+		printf_error("unable to stat file");
+		goto out;
+	}
+
 	len = es.size;
 
 	if (len < 18) {
@@ -97,7 +102,7 @@ long main(int argc, char *argv[])
 	source = (unsigned char *) malloc(len);
 
 	if (source == NULL) {
-		printf_error("not enough memory");
+		printf_error("not enough memory allocating %ld bytes", len);
 		goto out;
 	}
 
