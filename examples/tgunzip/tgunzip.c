@@ -57,8 +57,8 @@ long main(int argc, char *argv[])
 	unsigned char fout = 0;
 	unsigned char *source = NULL;
 	unsigned char *dest = NULL;
-	unsigned long dlen, outlen;
-	uint32_t len;
+	unsigned long dlen;
+	uint32_t len, outlen;
 	long retval = EXIT_FAILURE;
 	long res;
 	struct esx_stat es;
@@ -80,7 +80,7 @@ long main(int argc, char *argv[])
 		goto out;
 	}
 
-	if ((fout = esx_f_open(argv[2], ESX_MODE_WRITE)) == NULL) {
+	if ((fout = esx_f_open(argv[2], ESX_MODE_WRITE | ESX_MODE_OPEN_CREAT_NOEXIST)) == NULL) {
 		printf_error("unable to create output file '%s'", argv[2]);
 		goto out;
 	}
