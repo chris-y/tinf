@@ -26,9 +26,12 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <arch/zxn.h>
 #include <arch/zxn/esxdos.h>
 
 #include "tinf.h"
+
+static unsigned char old_cpu_speed;
 
 static unsigned long read_le32(const unsigned char *p)
 {
@@ -70,6 +73,9 @@ long main(int argc, char *argv[])
 		      "Both input and output are kept in memory, so do not use this on huge files.\n", stderr);
 		return EXIT_FAILURE;
 	}
+
+	old_cpu_speed = ZXN_READ_REG(REG_TURBO_MODE);
+	ZXN_NEXTREG(REG_TURBO_MODE, RTM_14MHZ);
 
 	tinf_init();
 
@@ -157,6 +163,8 @@ out:
 	if (dest != NULL) {
 		free(dest);
 	}
+
+	ZXN_NEXTREGA(REG_TURBO_MODE, old_cpu_speed);
 
 	return retval;
 }
