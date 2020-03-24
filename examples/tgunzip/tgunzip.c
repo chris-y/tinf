@@ -86,15 +86,13 @@ long main(int argc, char *argv[])
 
 	/* -- Read source -- */
 
-	/*
-	stat = esx_f_fstat(fin, (struct esx_stat *)&es);
+	res = esx_f_fstat(fin, (struct esx_stat *)&es);
 	len = es.size;
 
 	if (len < 18) {
 		printf_error("input too small to be gzip");
 		goto out;
 	}
-	*/
 
 	source = (unsigned char *) malloc(len);
 
