@@ -26,6 +26,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <arch/zxn/esxdos.h>
 
 #include "tinf.h"
 
@@ -50,15 +51,16 @@ static void printf_error(const char *fmt, ...)
 	fputs("\n", stderr);
 }
 
-long main(long argc, char *argv[])
+long main(int argc, char *argv[])
 {
-	FILE *fin = NULL;
-	FILE *fout = NULL;
+	unsigned char fin = 0;
+	unsigned char fout = 0;
 	unsigned char *source = NULL;
 	unsigned char *dest = NULL;
 	unsigned long len, dlen, outlen;
 	long retval = EXIT_FAILURE;
 	long res;
+	struct esx_stat es;
 
 	printf("tgunzip " TINF_VER_STRING " - example from the tiny inflate library (www.ibsensoftware.com)\n\n");
 
@@ -72,28 +74,27 @@ long main(long argc, char *argv[])
 
 	/* -- Open files -- */
 
-	if ((fin = fopen(argv[1], "rb")) == NULL) {
+	if ((fin = esx_f_open(argv[1], ESX_MODE_READ)) == NULL) {
 		printf_error("unable to open input file '%s'", argv[1]);
 		goto out;
 	}
 
-	if ((fout = fopen(argv[2], "wb")) == NULL) {
+	if ((fout = esx_f_open(argv[2], ESX_MODE_WRITE)) == NULL) {
 		printf_error("unable to create output file '%s'", argv[2]);
 		goto out;
 	}
 
 	/* -- Read source -- */
 
-	fseek(fin, 0, SEEK_END);
-
-	len = ftell(fin);
-
-	fseek(fin, 0, SEEK_SET);
+	/*
+	stat = esx_f_fstat(fin, (struct esx_stat *)&es);
+	len = es.size;
 
 	if (len < 18) {
 		printf_error("input too small to be gzip");
 		goto out;
 	}
+	*/
 
 	source = (unsigned char *) malloc(len);
 
@@ -102,7 +103,7 @@ long main(long argc, char *argv[])
 		goto out;
 	}
 
-	if (fread(source, 1, len, fin) != len) {
+	if (esx_f_read(fin, source, len) != len) {
 		printf_error("error reading input file");
 		goto out;
 	}
@@ -133,17 +134,17 @@ long main(long argc, char *argv[])
 
 	/* -- Write output -- */
 
-	fwrite(dest, 1, outlen, fout);
+	esx_f_write(fout, dest, outlen);
 
 	retval = EXIT_SUCCESS;
 
 out:
 	if (fin != NULL) {
-		fclose(fin);
+		esx_f_close(fin);
 	}
 
 	if (fout != NULL) {
-		fclose(fout);
+		esx_f_close(fout);
 	}
 
 	if (source != NULL) {
