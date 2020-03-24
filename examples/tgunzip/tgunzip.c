@@ -81,12 +81,12 @@ long main(int argc, char *argv[])
 
 	/* -- Open files -- */
 
-	if ((fin = esx_f_open(argv[1], ESX_MODE_READ)) == NULL) {
+	if ((fin = esx_f_open(argv[1], ESX_MODE_READ)) == 0) {
 		printf_error("unable to open input file '%s'", argv[1]);
 		goto out;
 	}
 
-	if ((fout = esx_f_open(argv[2], ESX_MODE_WRITE | ESX_MODE_OPEN_CREAT_NOEXIST)) == NULL) {
+	if ((fout = esx_f_open(argv[2], ESX_MODE_WRITE | ESX_MODE_OPEN_CREAT_NOEXIST)) == 0) {
 		printf_error("unable to create output file '%s'", argv[2]);
 		goto out;
 	}
