@@ -2,6 +2,7 @@
  * tgunzip - gzip decompressor example
  *
  * Copyright (c) 2003-2019 Joergen Ibsen
+ * Copyright (c) 2020 Chris Young - ZX Next compatibility
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
